@@ -1,6 +1,7 @@
 
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,27 +49,16 @@ border-radius:10px;
 margin-top:25px;
 }
 
-h1{
-font-size:28px;
-margin-bottom:10px;
-}
-
-h3{
-font-weight:normal;
-color:#555;
-margin-bottom:20px;
-}
-
 .details{
 display:flex;
 justify-content:center;
-flex-wrap:wrap;
 gap:20px;
+flex-wrap:wrap;
 margin-bottom:25px;
 }
 
 .box{
-background:#f8f8f8;
+background:#f7f7f7;
 padding:10px 20px;
 border-radius:6px;
 font-weight:600;
@@ -84,12 +74,6 @@ font-size:18px;
 cursor:pointer;
 }
 
-.btn:hover{
-background:#d62839;
-}
-
-/* Modal */
-
 .modal{
 position:fixed;
 top:0;
@@ -100,7 +84,6 @@ background:rgba(0,0,0,0.6);
 display:none;
 align-items:center;
 justify-content:center;
-padding:20px;
 }
 
 .modal-content{
@@ -109,29 +92,17 @@ max-width:500px;
 width:100%;
 padding:30px;
 border-radius:10px;
-text-align:left;
 max-height:90vh;
 overflow:auto;
 }
 
-.modal h2{
-text-align:center;
-margin-bottom:5px;
-}
-
-.modal p{
-text-align:center;
-color:#666;
-margin-bottom:20px;
-}
-
 label{
-font-weight:600;
-margin-top:10px;
 display:block;
+margin-top:12px;
+font-weight:600;
 }
 
-input, select{
+input,select{
 width:100%;
 padding:10px;
 margin-top:5px;
@@ -156,12 +127,7 @@ color:white;
 padding:12px;
 border:none;
 border-radius:6px;
-font-size:16px;
 cursor:pointer;
-}
-
-.submit-btn:hover{
-background:#21867a;
 }
 
 .close{
@@ -170,21 +136,8 @@ cursor:pointer;
 font-size:20px;
 }
 
-/* Responsive */
-
-@media(max-width:600px){
-
-h1{
-font-size:22px;
-}
-
-.details{
-flex-direction:column;
-}
-
-}
-
 </style>
+
 </head>
 
 <body>
@@ -196,7 +149,7 @@ flex-direction:column;
 <div class="content">
 
 <h1>Tarot Eagle Mastery Workshop</h1>
-<h3>Explore your future with Tarot</h3>
+<p>Explore your future with Tarot</p>
 
 <div class="details">
 <div class="box">15 March 2026</div>
@@ -211,7 +164,7 @@ flex-direction:column;
 </div>
 
 
-<!-- Modal Form -->
+<!-- FORM MODAL -->
 
 <div class="modal" id="formModal">
 
@@ -244,9 +197,15 @@ flex-direction:column;
 </select>
 
 <div class="qr">
-<p><b>Scan & Pay</b></p>
+
+<p><b>Scan & Pay ₹51</b></p>
+
 <img src="Images/Bar-Code.jpeg">
+
 </div>
+
+<label>Upload Payment Screenshot</label>
+<input type="file" id="payment" accept="image/*" required>
 
 <button type="submit" class="submit-btn">Submit</button>
 
@@ -254,7 +213,6 @@ flex-direction:column;
 
 </div>
 </div>
-
 
 
 <script>
@@ -276,45 +234,54 @@ let name=document.getElementById("name").value;
 let phone=document.getElementById("phone").value;
 let email=document.getElementById("email").value;
 let city=document.getElementById("city").value;
+let payment=document.getElementById("payment").files[0];
 
+if(!payment){
+alert("Please upload payment screenshot");
+return;
+}
 
 /* WhatsApp Message */
 
-let message=
-`Workshop Registration
-Name: ${name}
-Phone: ${phone}
-Email: ${email}
-City: ${city}`;
-
-let whatsappURL=`https://wa.me/917860513966?text=${encodeURIComponent(message)}`;
-
-window.open(whatsappURL,"_blank");
-
-
-/* Generate PDF */
-
-let pdfContent=`
-Workshop Registration
+let message=`Workshop Registration
 
 Name: ${name}
 Phone: ${phone}
 Email: ${email}
 City: ${city}
 
+Payment of Rs 51 is completed.
+
+Successfully registered for the workshop.`;
+
+let whatsappURL=`https://wa.me/917860513966?text=${encodeURIComponent(message)}`;
+
+window.open(whatsappURL,"_blank");
+
+
+/* PDF Download */
+
+let text=`
+Tarot Eagle Mastery Workshop
+
+Name: ${name}
+Phone: ${phone}
+Email: ${email}
+City: ${city}
+
+Payment: Rs 51 Completed
+
 You are successfully registered for the workshop.
 `;
 
-let blob=new Blob([pdfContent],{type:"application/pdf"});
-
+let blob=new Blob([text],{type:"application/pdf"});
 let link=document.createElement("a");
 
 link.href=URL.createObjectURL(blob);
 link.download="Workshop-Registration.pdf";
 link.click();
 
-
-alert("Registration Successful!");
+alert("Registration Successful");
 
 closeForm();
 
