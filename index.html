@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
+
 <title>Tarot Eagle Mastery Workshop</title>
 
 <style>
@@ -202,7 +203,7 @@ font-size:20px;
 
 <p><b>Scan & Pay ₹51</b></p>
 
-<img src="Images/Bar-Code.jpeg">
+<img src="Images/Updated-QR.jpeg">
 
 </div>
 
@@ -211,12 +212,14 @@ font-size:20px;
 
 <button type="submit" class="submit-btn">Submit</button>
 
+<p>Note:- Please Send the Screenshot of the Payment on the WhatsApp Number</p>
+
 </form>
 
 </div>
 </div>
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 
 function openForm(){
@@ -251,6 +254,7 @@ Name: ${name}
 Phone: ${phone}
 Email: ${email}
 City: ${city}
+Payment: ${payment}
 
 Payment of Rs 51 is completed.
 
@@ -263,27 +267,31 @@ window.open(whatsappURL,"_blank");
 
 /* PDF Download */
 
-let text=`
-Tarot Eagle Mastery Workshop
+  const { jsPDF } = window.jspdf;
 
-Name: ${name}
-Phone: ${phone}
-Email: ${email}
-City: ${city}
+const pdf = new jsPDF();
 
-Payment: Rs 51 Completed
+pdf.setFontSize(18);
+pdf.text("Tarot Eagle Mastery Workshop", 20, 30);
 
-You are successfully registered for the workshop.
-`;
+pdf.setFontSize(14);
+pdf.text("Registration Details", 20, 50);
 
-let blob=new Blob([text],{type:"application/pdf"});
-let link=document.createElement("a");
+pdf.setFontSize(12);
 
-link.href=URL.createObjectURL(blob);
-link.download="Workshop-Registration.pdf";
-link.click();
+pdf.text(`Name: ${name}`, 20, 70);
+pdf.text(`Phone: ${phone}`, 20, 80);
+pdf.text(`Email: ${email}`, 20, 90);
+pdf.text(`City: ${city}`, 20, 100);
 
-alert("Registration Successful");
+pdf.text("Payment: Rs 51 Completed", 20, 120);
+
+pdf.setFontSize(14);
+pdf.text("You are successfully registered for the workshop.", 20, 140);
+
+pdf.save("Workshop-Registration.pdf");
+
+
 
 closeForm();
 
